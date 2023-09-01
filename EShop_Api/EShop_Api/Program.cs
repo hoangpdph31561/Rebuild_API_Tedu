@@ -1,4 +1,5 @@
 using EShop_Appication.Catalog.Product;
+using EShop_Appication.Common;
 using EShop_Data.EF;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,9 @@ builder.Services.AddDbContext<EShopDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDB"));
 });
+builder.Services.AddScoped<IStorageService,FileStorageService>();
 builder.Services.AddScoped<IPublicProductService,PublicProductService>();
+builder.Services.AddScoped<IManageProductService,ManageProductService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

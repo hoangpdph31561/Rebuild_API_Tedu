@@ -42,6 +42,7 @@ namespace EShop_Appication.Catalog.Product
                 Stock = request.Stock,
                 ViewCount = 0,
                 DateCreated = DateTime.Now,
+                SeoAlias = request.SeoAlias,
                 ProductTranslations = new List<ProductTranslation>()
                 { new ProductTranslation()
                     {
@@ -93,7 +94,7 @@ namespace EShop_Appication.Catalog.Product
         {
             //1. Select join
             var querry = from product in _eShopDBContext.Products
-                         join productTrans in _eShopDBContext.ProductTranslations on product.Id equals productTrans.Id
+                         join productTrans in _eShopDBContext.ProductTranslations on product.Id equals productTrans.ProductId
                          join productInCategories in _eShopDBContext.ProductInCategories on product.Id equals productInCategories.ProductId
                          join category in _eShopDBContext.Categories on productInCategories.CategoryId equals category.Id
 
@@ -133,6 +134,41 @@ namespace EShop_Appication.Catalog.Product
                 Items = await data.ToListAsync()
             };
             return productResult;
+        }
+
+        public async Task<ProductViewModel> GetProductById(int productId)
+        {
+            //1. Select join
+            var result = await (from product in _eShopDBContext.Products
+                         join productTrans in _eShopDBContext.ProductTranslations on product.Id equals productTrans.ProductId
+                         where product.Id == productId
+                         select new { product, productTrans }).FirstOrDefaultAsync();
+            ProductViewModel productView = new ProductViewModel();
+            if (result != null)
+            {
+                productView = new ProductViewModel()
+                {
+                    Id = result.product.Id,
+                    Name = result.productTrans.Name,
+                    DateCreated = result.product.DateCreated,
+                    Description = result.productTrans.Description,
+                    Details = result.productTrans.Details,
+                    LanguageId = result.productTrans.LanguageId,
+                    OriginalPrice = result.product.OriginalPrice,
+                    Price = result.product.Price,
+                    SeoAlias = result.product.SeoAlias,
+                    SeoDescriptions = result.productTrans.SeoDescriptions,
+                    SeoTitle = result.productTrans.SeoTitle,
+                    Stock = result.product.Stock,
+                    ViewCount = result.product.ViewCount
+                };
+            }
+            else
+            {
+                productView = null;
+            }
+            
+            return productView;
         }
 
         public async Task<int> Update(ProductUpdateRequest request)

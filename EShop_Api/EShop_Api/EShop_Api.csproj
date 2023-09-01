@@ -14,4 +14,8 @@
     <ProjectReference Include="..\EShop_Appication\EShop_Appication.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\user-content\" />
+  </ItemGroup>
+
 </Project>

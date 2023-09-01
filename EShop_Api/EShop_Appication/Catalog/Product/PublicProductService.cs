@@ -21,10 +21,9 @@ namespace EShop_Appication.Catalog.Product
         public async Task<List<ProductViewModel>> GetAll()
         {
             var querry = from product in _eShopDBContext.Products
-                         join productTrans in _eShopDBContext.ProductTranslations on product.Id equals productTrans.Id
-                         join productInCategories in _eShopDBContext.ProductInCategories on product.Id equals productInCategories.ProductId
-                         join category in _eShopDBContext.Categories on productInCategories.CategoryId equals category.Id
-                         select new { product, productTrans, productInCategories };
+                         join productTrans in _eShopDBContext.ProductTranslations on product.Id equals productTrans.ProductId
+                         
+                         select new { product, productTrans};
             int totalRow = await querry.CountAsync(); //lấy dòng để phân trang
             var data = await querry.Select(x => new ProductViewModel
             {
@@ -53,7 +52,7 @@ namespace EShop_Appication.Catalog.Product
         {
             //1. Select join
             var querry = from product in _eShopDBContext.Products
-                         join productTrans in _eShopDBContext.ProductTranslations on product.Id equals productTrans.Id
+                         join productTrans in _eShopDBContext.ProductTranslations on product.Id equals productTrans.ProductId
                          join productInCategories in _eShopDBContext.ProductInCategories on product.Id equals productInCategories.ProductId
                          join category in _eShopDBContext.Categories on productInCategories.CategoryId equals category.Id
 
