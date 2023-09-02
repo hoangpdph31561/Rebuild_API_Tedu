@@ -1,6 +1,8 @@
 ﻿using EShop_ViewModel.Catalog;
 using EShop_ViewModel.Catalog.Manager;
+using EShop_ViewModel.Catalog.ProductImages;
 using EShop_ViewModel.Common;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +21,9 @@ namespace EShop_Appication.Catalog.Product
         Task<ProductViewModel> GetProductById(int productId);
         Task AddViewCount(int productId);
         Task<PageResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
+        Task<int> AddImages(int productId, ProductImageCreateRequest viewModel);
+        Task<int> UpdateImage (int imageId, ProductImageUpdateRequest request);
+        Task<int> DeleteImage(int imageId);
+        Task<List<ProductImageViewModel>> GetListImages(int productId);
     }
 }
