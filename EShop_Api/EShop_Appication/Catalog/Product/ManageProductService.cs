@@ -88,7 +88,8 @@ namespace EShop_Appication.Catalog.Product
                         FileSize =(int) request.ThumnailImage.Length,
                         ImagePath = await this.SaveFile(request.ThumnailImage),
                         IsDefault = true,
-                        SortOrder = 1
+                        SortOrder = 1,
+                        DateCreated = DateTime.Now
                     }
                 };
             }
