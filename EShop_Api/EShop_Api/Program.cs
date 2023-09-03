@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using EShop_ViewModel.UserSystemRequest;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +32,9 @@ builder.Services.AddScoped<UserManager<AppUser>,UserManager<AppUser>>();
 builder.Services.AddScoped<SignInManager<AppUser>,SignInManager<AppUser>>();
 builder.Services.AddScoped<RoleManager<AppRole>,RoleManager<AppRole>>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
+builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterRequestValidator>();
+builder.Services.AddControllers().AddFluentValidation();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x =>
 {
